@@ -1,6 +1,7 @@
 #load in libraries 
 library(ggplot2)
 library(tidyverse)
+library(dplyr)
 
 #load in data 
 data = read.csv("restaurant_inspections.csv")
@@ -20,10 +21,13 @@ age <- trunc((open_date %--% inspection_date)/years(1))
 #Add a new column to the data that has the age of the restaurant 
 data <- cbind(data, age)
 
-#Make a line plot to show the relationship between restaurant age and score
-age_score <- group_by(data, age) %>% 
+#Make a scatter plot to show the relationship between restaurant age and score
+age_score <- group_by(na.omit(data), age) %>% 
   summarize(score=mean(SCORE))
 
-ggplot(age_score, aes(x=age, y=score)) + geom_line() 
-## it seems like the average score for restaurants in different age categories varies by the age of the restauarnat but there is not any true correlation-- it does, however, seem that after a restaurant is open for 30 years or more their score is better 
+age_score_plot <- ggplot(age_score, aes(age, score)) + geom_point() 
+
+cor(age_score$age, age_score$score)
+
+## moderately positive correaltion -- older restaurant, higher inspection score, somewhat of a correlation but not high 
 
