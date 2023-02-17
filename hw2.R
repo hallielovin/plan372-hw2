@@ -38,12 +38,37 @@ cor(age_score$age, age_score$score)
 unique(data$CITY)
 
 #Recode the cities that are different to look the same as their capitalized partner
-data$CITY <- recode(data$CITY, "Cary" = "CARY", "Fuquay-Varina" = "FUQUAY VARINA", "Garner" = "GARNER","Raleigh" = "RALEIGH", "Zebulon"= "ZEBULON", "Wake Forest" = "WAKE FOREST", "MORRISVILE" = "MORRISVILLE", "RTP" = "RESEARCH TRIANGLE PARK", "Apex" = "APEX", "Holly Springs" = "HOLLY SPRINGS", "Fuquay Varina" = "FUQUAY VARINA", "HOLLY SPRING" = "HOLLY SPRINGS", "Morrisville" = "MORRISVILLE" )
+data$CITY <- recode(data$CITY, "Cary" = "CARY", "Fuquay-Varina" = "FUQUAY VARINA", "Garner" = "GARNER","Raleigh" = "RALEIGH", "Zebulon"= "ZEBULON", "Wake Forest" = "WAKE FOREST", "MORRISVILE" = "MORRISVILLE", "RTP" = "RESEARCH TRIANGLE PARK", "Apex" = "APEX", "Holly Springs" = "HOLLY SPRINGS", "Fuquay Varina" = "FUQUAY VARINA", "HOLLY SPRING" = "HOLLY SPRINGS", "Morrisville" = "MORRISVILLE", "FUQUAY-VARINA" = "FUQUAY VARINA")
 
 #Check to make sure that this corrected the issues 
 unique(data$CITY)
 
-#Make a bar graph showing inspection scores and cities
+#Group the cities together and find the average restautant score in each city and make a bar graph showing inspection scores and cities
 group_by(na.omit(data), CITY) %>%
   summarize(score= mean(SCORE)) %>%
   ggplot(aes(CITY, score)) + geom_col() + theme(axis.text.x = element_text(angle=90))
+
+#Calculate the standard deviation to determine the variation 
+city_score <- group_by(na.omit(data), CITY) %>%
+  summarize(score=mean(SCORE))
+
+sd(city_score$score)
+
+#QUESTION 4 
+#Group the inspector together to find their average score and make a bargraph to examine variation 
+group_by(na.omit(data), INSPECTOR) %>%
+  summarize(score=mean(SCORE)) %>%
+  ggplot(aes(INSPECTOR, score)) + geom_col() + theme(axis.text.x = element_text(angle=90))
+
+#Calculate the standard deviation to see what the variation is 
+inspector_scores <- group_by(na.omit(data), INSPECTOR) %>%
+  summarize(score = mean(SCORE))
+sd(inspector_scores$score)
+
+#QUESTION 5
+#City
+city_ss <- as.data.frame(table(data$CITY))
+#Inspector 
+inspector_ss <- as.data.frame(table(data$INSPECTOR))
+#Time Period
+time_period_ss <- as.data.frame(table(data$age))
