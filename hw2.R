@@ -66,9 +66,25 @@ inspector_scores <- group_by(na.omit(data), INSPECTOR) %>%
 sd(inspector_scores$score)
 
 #QUESTION 5
-#City
+#Make a table showing the frequency of data for each city
 city_ss <- as.data.frame(table(data$CITY))
-#Inspector 
+
+#Rename var1 to be CITY 
+city_ss <- city_ss %>%
+  rename(CITY = Var1)
+
+#Make a table showing the frequency of data for each inspector
 inspector_ss <- as.data.frame(table(data$INSPECTOR))
-#Time Period
+
+#Rename Var1 to be INSPECTOR
+inspector_ss <- inspector_ss %>%
+  rename(INSPECTOR = Var1)
+
+#Make a table showing the frequency of data for each time period
 time_period_ss <- as.data.frame(table(data$age))
+
+#Rename Var1 to be AGE
+time_period_ss <- time_period_ss %>%
+  rename(AGE = Var1)
+
+#QUESTION 6
