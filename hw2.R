@@ -44,7 +44,7 @@ data$CITY <- recode(data$CITY, "Cary" = "CARY", "Fuquay-Varina" = "FUQUAY VARINA
 unique(data$CITY)
 
 #Group the cities together and find the average restautant score in each city and make a bar graph showing inspection scores and cities
-group_by(na.omit(data), CITY) %>%
+group_by(data, CITY) %>%
   summarize(score= mean(SCORE)) %>%
   ggplot(aes(CITY, score)) + geom_col() + theme(axis.text.x = element_text(angle=90))
 
@@ -89,7 +89,7 @@ time_period_ss <- time_period_ss %>%
 
 #QUESTION 6
 #Find the average scores for each facility type and plot them in a bar plot 
-facility_scores <- group_by(na.omit(data), FACILITYTYPE) %>%
+facility_scores <- group_by(data, FACILITYTYPE) %>%
   summarize(score = mean(SCORE)) %>%
   ggplot(aes(FACILITYTYPE, score)) + geom_col() + theme(axis.text.x = element_text(angle=90))
 
@@ -116,7 +116,7 @@ cor(r_age_score$age, r_age_score$score)
 
 #7.3
 #Group the cities together and find the average restaurant score in each city and make a bar graph showing inspection scores and cities
-group_by(na.omit(restaurants), CITY) %>%
+group_by(restaurants, CITY) %>%
   summarize(score= mean(SCORE)) %>%
   ggplot(aes(CITY, score)) + geom_col() + theme(axis.text.x = element_text(angle=90))
 
